@@ -1,62 +1,50 @@
-# Ex.no.8-Building-a-Simple-College-Admission-Chatbot
-## Aim :
- To design, implement and test a simple rule-based chatbot in Python that answers frequently asked questions related to college admissions, such as courses offered, eligibility criteria, fees, application process, required documents, important dates, hostel facilities and contact details.
-### Introduction
-A chatbot is a software application that simulates a conversation with a human user, typically through text. A rule-based (or pattern-matching) chatbot works by comparing the user's message against a predefined set of keywords or patterns and returning a suitable pre-written response. It does not require large training datasets or heavy computation, which makes it an easy and beginner-friendly starting point for understanding how conversational AI systems are built. In this experiment, a College Admission Chatbot is developed to act as a virtual help-desk assistant that instantly answers common queries asked by prospective students.
-### Procedure
+# Ex.No-09-Building-a-Simple-AI-Agent-AI-Tourist-Guiide-for-India
+## Aim : To design, implement and test a simple goal-based AI agent in Python that plans a personalised India trip itinerary for a tourist, based on the tourist's interest, trip duration and daily budget.
+Introduction
+An AI agent is anything that can perceive its environment through sensors and act upon that environment through actuators in order to achieve a specific goal. A useful way to describe an agent is the PEAS framework — Performance measure, Environment, Actuators and Sensors. Agents are commonly classified as simple reflex agents (react only to the current input), goal-based agents (choose actions that achieve a defined goal) and utility-based agents (choose the action that maximises a measure of “goodness”). In this experiment, an AI Tourist Agent for India is built as a goal-based agent: given a tourist's goal (an enjoyable trip within their interest and budget), the agent perceives the tourist's preferences, reasons over a knowledge base of Indian destinations, plans a day-wise itinerary, and acts by presenting the recommended plan.
+Procedure
 ### Step 1: Import Required Libraries
-●	re – Python's regular expression module, used to search for keyword patterns inside the user's message.
-●	random – used to randomly pick one response when more than one reply is available for the same intent, so the chatbot does not sound repetitive.
-<img width="605" height="37" alt="image" src="https://github.com/user-attachments/assets/5d19fe62-e644-4676-805b-2fe23826e1da" />
-### Step 2: Design the Knowledge Base (Intents and Responses)
-●	The knowledge base is stored as a Python dictionary, where every key is an intent (topic) such as courses, eligibility, fees or hostel.
-●	Each intent stores a list of patterns (keywords/phrases likely to appear in a user's question) and a list of possible responses.
-●	Organising the data this way makes the chatbot easy to extend — a new admission topic can be added simply by adding one more entry to the dictionary.
-<img width="642" height="222" alt="image" src="https://github.com/user-attachments/assets/146afc71-fa16-4c84-a959-c91bbc2842eb" />
-<img width="618" height="359" alt="image" src="https://github.com/user-attachments/assets/6b976de7-7dce-4418-a526-d25b31c66e79" />
-Knowledge Base Summary
-The table below summarises the complete knowledge base used by the chatbot:
-<img width="669" height="403" alt="image" src="https://github.com/user-attachments/assets/991481a9-e6a3-4ce8-a3d0-2f07c4c7adf2" />
-### Step 3: Function to Match User Input to an Intent
-●	Converts the user's sentence to lower case so that matching is not case-sensitive.
-●	re.search() scans the message for each pattern of every intent; the first intent whose pattern is found is returned.
-●	If no pattern matches any intent, the function returns None so the fallback response can be used.
-<img width="632" height="115" alt="image" src="https://github.com/user-attachments/assets/b4e8db5f-7e9c-4e48-9aeb-82d4c9e43097" />
-### Step 4: Define the Chatbot Response Function
-●	Calls match_intent() to identify what the user is asking about.
-●	random.choice() picks one response from the matched intent's response list.
-●	Returns a fallback message when the intent could not be identified, instead of leaving the user without a reply.
-<img width="623" height="95" alt="image" src="https://github.com/user-attachments/assets/ab6895ac-bba4-4e66-9c51-cacf8d828286" />
-### Step 5: Build the Interactive Conversation Loop
-●	input() continuously reads the user's message from the console.
-●	get_response() generates the reply for every message typed by the user.
-●	The loop ends automatically once the matched intent is “goodbye” (e.g. the user types bye / exit / quit).
-<img width="632" height="126" alt="image" src="https://github.com/user-attachments/assets/ae562d77-2461-4bed-b4c1-461b1cea5728" />
-### Step 6: Test the Chatbot with Sample Queries
-●	A list of realistic sample questions is used to automatically test every intent in the knowledge base.
-●	Each query and the chatbot's corresponding reply are printed, which makes it easy to verify that every category of question is answered correctly.
-<img width="622" height="113" alt="image" src="https://github.com/user-attachments/assets/4fdb6b4b-c684-4033-94e1-0d51fa19e99b" />
-<img width="583" height="251" alt="image" src="https://github.com/user-attachments/assets/2ba37096-9575-4164-b4c3-ebca74ca9aab" />
-### Step 7: Run the Chatbot
-The complete script is executed in Python. Since input() cannot be used for automated testing, the sample_queries list from Step 6 is run first to validate every intent; the same get_response() function also powers the live chat() loop for real-time conversation with a user. The output produced on running the program is shown below.
-Output
-### Sample Conversation Output (Part 1)
-●	The chatbot correctly greets the user and identifies the courses, eligibility, fees, application process and documents intents from the keywords present in each question.
-<img width="646" height="470" alt="image" src="https://github.com/user-attachments/assets/016e1f31-dd01-4348-8815-70b3577b1391" />
-### Sample Conversation Output (Part 2)
-●	The remaining queries about dates, hostel facility and contact details are correctly matched to their respective intents.
-●	The conversation ends gracefully with a goodbye message once the user types “Bye”, terminating the chat loop.
-<img width="660" height="380" alt="image" src="https://github.com/user-attachments/assets/698ac90d-7962-406c-b381-03d16bedfb3b" />
+●	textwrap – used only to neatly wrap long destination descriptions to a fixed line width while printing the itinerary.
+<img width="584" height="34" alt="image" src="https://github.com/user-attachments/assets/d7bd1246-346f-41f8-aec1-fddca7a8e120" />
+### Step 2: Define the Agent's Knowledge Base (Destination Database)
+●	The agent's environment knowledge is stored as a list of dictionaries, one per Indian destination.
+●	Each destination has a category (heritage, spiritual, beach, hill_station, adventure, nature, wildlife), an estimated cost per day, the best travel season and a short description.
+●	This knowledge base plays the same role for the agent that the environment model plays for any goal-based agent — it is what the agent reasons over to choose its actions.
+<img width="619" height="236" alt="image" src="https://github.com/user-attachments/assets/4182dfe7-9114-4557-a80f-a8756a48b2f5" />
+<img width="615" height="347" alt="image" src="https://github.com/user-attachments/assets/320ffc13-4890-4761-9499-34426c329b35" />
+Destination Knowledge Base Summary
+The table below summarises the destinations available to the agent:
+<img width="673" height="213" alt="image" src="https://github.com/user-attachments/assets/c5fea0c9-95f2-482f-a1fb-d9cfafdcf2ea" />
+### Step 3: Perceive — Read the Tourist's Goal / Preferences
+●	The perceive() function represents the agent's sensors: it reads the tourist's profile (interest category, number of days, daily budget) and displays it back to confirm what was understood.
+<img width="585" height="109" alt="image" src="https://github.com/user-attachments/assets/81c0cc39-ba1f-4736-8a51-1eb1ba2ff3f8" />
+### Step 4: Reason — Filter and Rank Matching Destinations
+●	The agent compares every destination in its knowledge base against the tourist's goal: same category and cost per day within the daily budget.
+●	If nothing fits the exact budget, it falls back to all destinations of the requested category, sorted from cheapest to costliest, so the agent always tries to return a useful plan.
+<img width="615" height="148" alt="image" src="https://github.com/user-attachments/assets/ba53e68e-5fb0-4673-83cf-5b705751df15" />
+### Step 5: Plan — Build a Day-wise Itinerary
+●	The agent allocates up to 3 days per destination and moves to the next matching destination once those days are used, cycling back to the first if needed for longer trips.
+●	Consecutive days at the same destination are merged into a single itinerary block, and the total estimated cost is calculated as it plans.
+<img width="612" height="290" alt="image" src="https://github.com/user-attachments/assets/f793c485-908e-4e98-84ca-119671909652" />
+### Step 6: Act — Present the Recommendation to the Tourist
+●	The act() function represents the agent's actuator: it prints a readable, day-wise itinerary with the destination, description, best season and cost for each leg of the trip, followed by the total estimated cost.
+<img width="576" height="177" alt="image" src="https://github.com/user-attachments/assets/55712bdf-2b82-42b0-83f7-5b3eb7d94263" />
+<img width="632" height="89" alt="image" src="https://github.com/user-attachments/assets/9a254225-96b6-4729-be35-29cac298c28d" />
+### Step 7: The Agent Loop — Perceive → Reason → Plan → Act
+●	run_agent() ties the four stages together into a single agent cycle, exactly as a real autonomous agent continuously perceives, reasons and acts within its environment.
+<img width="432" height="89" alt="image" src="https://github.com/user-attachments/assets/0a46568e-9781-457b-8a10-e2a97a95c0a2" />
+### Step 8: Test the Agent with Sample Tourist Profiles
+●	Three realistic tourist profiles are used to test the agent across different interests and budgets: a budget heritage traveller, a mid-budget adventure seeker, and a family looking for a beach holiday.
+<img width="616" height="241" alt="image" src="https://github.com/user-attachments/assets/17613086-5b61-44f1-8d85-cbbae85cfc4b" />
+### Output
+Agent Output – Session 1 (Budget Heritage Traveller)
+●	The agent correctly perceives Ananya's preferences, reasons that Taj Mahal and Jaipur are the matching heritage destinations within budget, and plans a 6-day itinerary split evenly between them.
+<img width="677" height="373" alt="image" src="https://github.com/user-attachments/assets/c92635bd-dffc-470d-ad75-2b8f806e3c70" />
+Agent Output – Sessions 2 and 3 (Adventure Seeker and Beach Holiday)
+●	For the adventure seeker, the agent plans a trip across Coorg and Spiti Valley, both within the Rs. 5,000/day budget.
+●	For the beach-holiday family, the agent alternates between Goa and the Andaman Islands to fill all 7 requested days, and the total estimated cost is calculated automatically for each plan.
+<img width="620" height="532" alt="image" src="https://github.com/user-attachments/assets/d0d7a414-912d-4768-8b4f-933a1037a4c6" />
+Fig 2: Console output for the adventure-seeker and beach-holiday profiles, each with a complete itinerary and total cost.
 ## Conclusion
-Thus, a simple rule-based College Admission Chatbot was successfully designed, implemented and tested using Python. The chatbot uses a keyword/pattern-based knowledge base to identify the intent behind a user's question and responds with an appropriate, pre-defined answer covering courses, eligibility, fees, application process, documents, dates, hostel and contact information. The experiment demonstrates the fundamental building blocks — knowledge base design, intent matching and response generation — on which more advanced NLP-based and AI-based chatbots are built.
-
-
-
-
-
-
-
-
-
-
+Thus, a simple goal-based AI Tourist Agent for India was successfully designed, implemented and tested using Python. The agent follows the classic Perceive → Reason → Plan → Act cycle: it perceives a tourist's goal (interest, duration and budget), reasons over a knowledge base of Indian destinations to find matching options, plans a day-wise itinerary, and acts by presenting a complete, costed trip recommendation. This experiment demonstrates the core building blocks of autonomous agents — environment knowledge, perception, reasoning/planning and action — on which more advanced AI agents (using machine learning, real-time APIs and large language models) are built.
 
